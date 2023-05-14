@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id('id_user');
-    
-            $table->string('email')->unique();
-            
-            $table->string('password');
-            $table->enum('type',User::TYPE);
+        Schema::create('grades', function (Blueprint $table) {
+            $table->id('id_grade');
+            $table->string('designation')->unique();
+            $table->string('charge_statutaire');
+            $table->double('taux_horaire_vacation');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('grades');
     }
 };
