@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('nom');
             $table->string('prenom');
             $table->date('date_naissance');
-            $table->integer('id_etablissemnt');
-            $table->interger('id_user');
+            $table->unsignedBigInteger('id_etablissement');
+            $table->unsignedBigInteger('id_user');
             $table->foreign('id_etablissement')->references('id')->on ('etablissements');
             $table->foreign('id_user')->references('id_user')->on ('users');
             $table->timestamps();

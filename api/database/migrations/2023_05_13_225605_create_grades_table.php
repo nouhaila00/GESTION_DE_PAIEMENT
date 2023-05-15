@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('id_grade');
             $table->string('designation')->unique();
             $table->string('charge_statutaire');
-            $table->double('taux_horaire_vacation');
+            $table->float('taux_horaire_vacation');
             $table->timestamps();
         });
     }

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('interventions', function (Blueprint $table) {
             $table->id('id_intervention');
-            $table->integer('id_intervenant');
-            $table->integer('id_Etab');
+            $table->unsignedBigInteger('id_intervenant');
+            $table->unsignedBigInteger('id_Etab');
             $table->integer('visa_etb')->default(0);
             $table->integer('visa_uae')->default(0);
             $table->foreign('id_intervenant')->references('id')->on ('enseignants');
