@@ -17,6 +17,12 @@ return new class extends Migration
             $table->id('id_intervention');
             $table->unsignedBigInteger('id_intervenant');
             $table->unsignedBigInteger('id_Etab');
+            $table->string('intitule_intervention');
+            $table->date('annee_univ');
+            $table->string('semestre');
+            $table->date('Date_debut');
+            $table->date('Date_fin');
+            $table->float('Nbr_heures');
             $table->integer('visa_etb')->default(0);
             $table->integer('visa_uae')->default(0);
             $table->foreign('id_intervenant')->references('id')->on ('enseignants');

@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('prenom');
             $table->date('date_naissance');
             $table->unsignedBigInteger('id_etab');
+            $table->unsignedBigInteger('id_grade');
+            $table->unsignedBigInteger('id_user');
             $table->foreign('id_etab')->references('id')->on ('etablissements');
             $table->foreign('id_grade')->references('id_grade')->on ('grades');
             $table->foreign('id_user')->references('id_user')->on ('users');
