@@ -23,25 +23,12 @@ class AuthController extends Controller
         }
 
         $user= User::where('email',$validatedData['email'])->first();
-        $token=$user->createToken('API Token of ' . $user->name)->plainTextToken;
-         switch($user->type)
-         {
-            case 'Directeur': $view='directeur_dashboard';
-            break;
-            case 'President' : $view='president_dashboard';
-            break;
-            case 'Enseignant' : $view='enseignat_dashboard';
-            break;
-            case 'Admin_Etablissement' : $view='admin_etab_dashboard';
-            break;
-            case 'Admin_Université' : $view ='admin_univ_dashboard';
-            break;
-            
-         }
+        $token=$user->createToken('API Token ' )->plainTextToken;
+         
         return $this->success([
             'user' => $user,
             'token' => $token,
-            'view' => $view
+
         ]);
         
     }
