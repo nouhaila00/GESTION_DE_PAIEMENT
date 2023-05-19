@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->string('nom');
             $table->string('telephone')->unique();
-            $table->string('faxe');
+            $table->string('faxe')->unique();
             $table->string('ville');
             $table->integer('nbr_enseignant');
             $table->timestamps();

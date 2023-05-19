@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('grades', function (Blueprint $table) {
             $table->id('id_grade');
-            $table->string('designation')->unique();
-            $table->string('charge_statutaire');
+            $table->string('designation');
+            $table->integer('charge_statutaire');
             $table->float('taux_horaire_vacation');
             $table->timestamps();
         });
