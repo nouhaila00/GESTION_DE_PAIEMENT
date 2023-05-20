@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Administrateur extends Model
 {
     use HasFactory;
+    
+protected $fillable = [
+            'PPR',
+            'nom',
+            'prenom',
+            'date_naissance',
+            'code',
+            'id_etablissement',
+            'id_user'        
+        ];
+
 }
