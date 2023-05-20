@@ -32,7 +32,7 @@ class RegisterEns extends FormRequest
             'email'=> ['required','string','unique:users','max:200','email'],
             'password' => ['required','string','min:8','max:10'],
             'type' => ['required','in:Enseignant'],
-            'PPR' => ['required','string','max:20','unique:users'],
+            'PPR' => ['required','string','max:20','unique:enseignants'],
             'nom' => ['required','string','max:20'],
             'prenom' => ['required','string','max:20'],
             'date_naissance' => ['required','date'],
