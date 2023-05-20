@@ -73,7 +73,7 @@ class IntervController extends Controller
      */
     public function update(Request $request, Intervention $intervention)
     {
-        //
+
     }
 
     /**
@@ -84,6 +84,6 @@ class IntervController extends Controller
      */
     public function destroy(Intervention $intervention)
     {
-        //
+        $intervention->delete();
     }
 }
