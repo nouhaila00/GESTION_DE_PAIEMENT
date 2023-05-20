@@ -31,7 +31,7 @@ class RegisterAdmin extends FormRequest
         return [
             'email'=> ['required','string','unique:users','max:200','email'],
             'password' => ['required','string','min:8','max:10'],
-            'type' => ['required','in:Enseignant'],
+            'type' => ['required','in:Admin_Etablissement,Directeur,President'],
             'PPR' => ['required','string','max:20','unique:users'],
             'nom' => ['required','string','max:20'],
             'prenom' => ['required','string','max:20'],
