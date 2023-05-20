@@ -19,9 +19,9 @@ return new class extends Migration
             $table->integer('id_etab');
             $table->integer('VH');
             $table->float('taux_h');
-            $table->float('brut');
-            $table->float('IR');
-            $table->float('net');
+            $table->float('brut')->nullable();
+            $table->float('IR')->nullable();
+            $table->float('net')->nullable();
             $table->date('annee_univ');
             $table->string('semestre');
             $table->foreign('id_intervenant')->references('id_intervention')->on ('interventions');
