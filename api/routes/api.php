@@ -20,8 +20,8 @@ Route::group(['middleware' => ['auth:sanctum']], function()
 
 
 });
-Route::get('/enseignant/{idet}',[EnseignantController::class,'indexByEtab'])->name('listEnseignat');
-Route::get ('/enseignant/{id}',[EnseignantController::class,'show'])->name('showEnseignat');
-Route::put('/enseignants/{id}', [EnseignantController::class,'update'])->name('UpdateEnseignant');
-Route::delete('/enseignants/{id}',  [EnseignantController::class,'destroy'])->name('DeleteEnseignant');
+Route::get('/enseignant/{code}',[EnseignantController::class,'indexByEtab'])->name('listEnseignat');
+Route::get ('/enseignant/{ppr}',[EnseignantController::class,'show'])->name('showEnseignat');
+Route::put('/enseignants/{ppr}', [EnseignantController::class,'update'])->name('UpdateEnseignant');
+Route::delete('/enseignants/{ppr}',  [EnseignantController::class,'destroy'])->name('DeleteEnseignant');
 

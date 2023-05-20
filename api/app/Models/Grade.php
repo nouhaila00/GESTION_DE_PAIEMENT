@@ -22,6 +22,8 @@ class Grade extends Model
     }
     protected $fillable = [
 
-        'id_grade'
+        'designation',
+        'charge_statutaire',
+        'taux_horaire_vacation',
     ];
 }

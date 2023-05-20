@@ -9,19 +9,20 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EnseignantController extends Controller
 {    use HttpResponses,HasFactory;
 
-    public function indexByEtab($etab_id)
-    {    $etablissement=Etablissement::find($etab_id);
-        if($etablissement){
-        $ensg = Enseignant::where('id_etab',$etab_id)->with('Grade')->paginate(20);
-        return  $this->success ($ensg, 'La liste des enseignant','');
-        }
-        else {
-            return $this->error('','Etablissement non trouvée',422);
+    public function indexByEtab($etab_code)
+    {   $etablissement = Etablissement::firstWhere('etab_code', $etab_code);
+        if ($etablissement) {
+            $etab_id = $etablissement->value('id_etablissement');
+            $ensg = Enseignant::where('id_etab', $etab_id)->with('Grade')->paginate(20);
+            return $this->success($ensg, 'La liste des enseignants', '');
+        } else {
+            return $this->error('', 'Etablissement non trouvé', 422);
         }
 }
 
@@ -32,9 +33,9 @@ class EnseignantController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function show($id)
+    public function show($ppr)
     {
-        $ensg=Enseignant ::with('Grade')->find($id);
+        $ensg=  Enseignant ::with('Grade')->where('PPR', $ppr)->first();
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
@@ -46,20 +47,19 @@ class EnseignantController extends Controller
          }
     }
 
-    public function update(Request $request,  $id)
+    public function update(Request $request,  $ppr)
 {
-            $enseignant= Enseignant ::with('Grade','User')->find($id);
+            $enseignant= Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
+
             if($enseignant){
             $val=$request->validated();
             if($val){
                 $enseignant->fill([
-
-                       'PPR ' => $val['PPR'],
                        'nom'  => $val['nom' ],
                        'prenom'=> $val['prenom' ],
-                       'date_naissance'=> $val['ate_naissance' ],]);
+                       'date_naissance'=> $val['date_naissance' ],]);
                  // Mettre à jour le grade associé
-              $grade = Grade::find($val['id_grade']);
+                 $grade = Grade::firstWhere('designation', $val['designation']);
                 if (!$grade) {
               return $this->error('', 'Grade non trouvé', 422);
             }
@@ -72,12 +72,9 @@ class EnseignantController extends Controller
 
                 $user->fill([
                  'email' => $val['email'],
-                 'password' =>$val['password'],
+                 'password' =>Hash::make($val['password']),
                       ]);
                   $user->save();
-
-
-
              $enseignant->save();
 
                 return   $this->success ($enseignant, 'l\'enseignant est bien modifiié','');
@@ -90,9 +87,9 @@ class EnseignantController extends Controller
             }
             }
 
-    public function destroy($id )
+    public function destroy($ppr )
     {
-        $ensg=Enseignant ::find($id);
+        $ensg= Enseignant ::where('PPR', $ppr)->first();
         if($ensg){
             $ensg->delete();
            return $this->success ('', 'l\'Enseignant supprimé avec succès','');
