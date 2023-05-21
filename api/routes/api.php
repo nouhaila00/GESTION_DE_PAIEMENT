@@ -20,4 +20,6 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     Route::post('/registerEns', [AuthController::class, 'registerEnseignant'])->name('registerEnseignant')->middleware('IsAdminEtab');
 });
 Route::post('/intervention',[IntervControlleron::class,'create'])->name('CreateInter');
+Route::put('/intervention/{intervention}',[IntervControlleron::class,'update'])->name('UpdateInter');
+
 Route::delete('/intervention/{intervention}',[IntervControlleron::class,'destroy'])->name('DestroyInter');

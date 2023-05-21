@@ -14,10 +14,20 @@ class IntervController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
-    }
+
+
+        public function index($idEnsg)
+        {
+            $interventions = Intervention::where('id_intervenant', $idEnsg)->get();
+            if($interventions){
+                return $this->success($interventions,'Les interventions concernée cet enseignant',200);
+            }
+            else {
+                return $this->error('','Aucune intervention correspondante  ',422);
+            }
+
+        }
+
 
     /**
      * Store a newly created resource in storage.
@@ -61,7 +71,9 @@ class IntervController extends Controller
      */
     public function show(Intervention $intervention)
     {
-        //
+
+
+
     }
 
     /**
@@ -72,9 +84,28 @@ class IntervController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Intervention $intervention)
-    {
+    {   $validatedData =$request->validated();
+        $etab=Etablissement::find($validatedData['id_etab'] );
+        $ensg=Enseignant::find($validatedData['id_intervenant'] );
+        if($etab){
+            if($ensg){
+        $intervention->fill($validatedData)->save();
+        if ($intervention->wasChanged()) {
+            return $this->success($intervention,'Intervention modifiée',200);
+        } else {
+            return $this->success($intervention,'Rien modifiée',200);
+        }}
+        else{
+            return $this->error('','Enseignant non trouvée ',422);
+             }}
+    else {
+        return $this->error('','Etablissement non trouvée ',422);
 
     }
+    }
+
+
+
 
     /**
      * Remove the specified resource from storage.

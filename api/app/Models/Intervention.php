@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Enseignant;
+use App\Models\Etablissement;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Intervention extends Model
 {
@@ -29,6 +31,6 @@ class Intervention extends Model
 
     public function enseignant()
     {
-        return $this->belongsTo(Enseignant::class, 'id_intervenant');
+        return $this->belongsTo(Enseignant::class, 'id_intervenant','id_enseignant');
     }
 }

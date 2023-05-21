@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Intervention;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Enseignant extends Model
 {
@@ -18,4 +19,8 @@ class Enseignant extends Model
         'id_user'
 
     ];
+    public function intervention()
+    {
+        return $this->hasMany(Intervention::class, 'id', 'id_intervenant');
+    }
 }
