@@ -4,6 +4,9 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Policies\EnseignantPolicy;
+use App\Models\Enseignant;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('update-enseignant-type', [EnseignantPolicy::class, 'updateType']);
     }
 }
