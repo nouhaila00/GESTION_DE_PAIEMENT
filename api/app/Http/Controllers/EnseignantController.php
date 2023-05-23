@@ -48,11 +48,12 @@ class EnseignantController extends Controller
 
     public function show($ppr)
     {
-        $ensg=  Enseignant ::with('Grade')->where('PPR', $ppr)->first();
+        $ensg=  Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
-            return $this->success($enseignantAvecGrade);
+             $enseignatEmail['email']=$enseignantAvecGrade->User->email;
+            return $this->success($enseignatEmail);
 
         }
          else{
@@ -72,7 +73,6 @@ class EnseignantController extends Controller
                        'prenom'=> $val['prenom' ],
                        'date_naissance'=> $val['date_naissance' ],]);
                  // Mettre à jour le grade associé
-                 
               // Mettre à jour l'utilisateur associé
                $user = $enseignant->user;
                if (!$user) {
