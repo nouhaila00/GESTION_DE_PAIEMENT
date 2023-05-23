@@ -8,4 +8,24 @@ use Illuminate\Database\Eloquent\Model;
 class Administrateur extends Model
 {
     use HasFactory;
+    protected $fillable = [
+
+        'PPR',
+        'nom' ,
+        'prenom',
+        'date_naissance',
+        'id_etab',
+        'code',
+        'id_user',
+    ];
+
+    public function etablissement()
+    {
+        return $this->belongsTo(Etablissement::class,'id_etab');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id_user');
+    }
 }

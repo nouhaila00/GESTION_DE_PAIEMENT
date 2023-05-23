@@ -26,7 +26,6 @@ class UpdateEns extends FormRequest
         return [
             'email'=> ['string','unique:users','max:200','email'],
             'password' => ['string','min:8','max:10'],
-            'PPR' => ['string','max:20','unique:enseignants'],
             'nom' => ['string','max:20'],
             'prenom' => ['string','max:20'],
             'date_naissance' => ['date'],

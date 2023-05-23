@@ -28,6 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('update-enseignant-type', [EnseignantPolicy::class, 'updateType']);
+        Gate::define('update-enseignant-grade', [EnseignantPolicy::class, 'updateType']);
     }
 }

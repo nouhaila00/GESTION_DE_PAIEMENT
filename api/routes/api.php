@@ -16,12 +16,12 @@ Route::post('/login', [AuthController::class, "login"])->name('login');
 Route::group(['middleware' => ['auth:sanctum']], function()
 {
     Route::post('/logout', [AuthController::class, "logout"])->name('logout');
-
+    Route::get('/enseignant/{code}',[EnseignantController::class,'indexByEtab'])->name('listEnseignat')->middleware('IsAdminUniv','IsAdminEtab');
+    Route::get ('/enseignant/{ppr}',[EnseignantController::class,'show'])->name('showEnseignat')->middleware('IsAdminEtab','IsEnseignat');
+    Route::put('/enseignants/{ppr}', [EnseignantController::class,'update'])->name('UpdateEnseignant')->middleware('IsAdminEtab','IsEnseignat');
+    Route::delete('/enseignants/{ppr}',  [EnseignantController::class,'destroy'])->name('DeleteEnseignant')->middleware('IsAdminEtab');
 
 
 });
-Route::get('/enseignant/{code}',[EnseignantController::class,'indexByEtab'])->name('listEnseignat');
-Route::get ('/enseignant/{ppr}',[EnseignantController::class,'show'])->name('showEnseignat');
-Route::put('/enseignants/{ppr}', [EnseignantController::class,'update'])->name('UpdateEnseignant');
-Route::delete('/enseignants/{ppr}',  [EnseignantController::class,'destroy'])->name('DeleteEnseignant');
+
 

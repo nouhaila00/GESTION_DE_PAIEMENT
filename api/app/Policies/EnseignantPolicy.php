@@ -18,7 +18,7 @@ class EnseignantPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->etab_code === $enseignant->id_etab;
+      
     }
 
     /**

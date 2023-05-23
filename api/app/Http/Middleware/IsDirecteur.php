@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class IsEnseignant
+class IsDirecteur
 {
     /**
      * Handle an incoming request.
@@ -18,7 +18,7 @@ class IsEnseignant
     {
         $userType = Auth::User()->type;
 
-        if ($userType !== 'Enseignant') {
+        if ($userType !== 'Directeur') {
             abort(403, 'Unauthorized');
         }
 
