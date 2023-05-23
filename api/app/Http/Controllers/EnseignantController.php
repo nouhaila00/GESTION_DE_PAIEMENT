@@ -25,7 +25,7 @@ class EnseignantController extends Controller
             $user= Auth::User();
             if($user->type == 'Admin_Université')
             {$ensg = Enseignant::where('id_etab', $etab_id)->with('Grade')->paginate(20);}
-            elseif ($user->type == 'Admin_Etablissement' && $user->administrateur->etablissement->code == $etab_code) 
+            elseif ($user->type == 'Admin_Etablissement' && $user->administrateur->etablissement->code == $etab_code)
             {
                 $ensg = Enseignant::whereHas('etablissement', function ($query) use ($etab_code) { $query->where('code', $etab_code);})->with('Grade')->get();
 
@@ -52,8 +52,8 @@ class EnseignantController extends Controller
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
-             $enseignatEmail['email']=$enseignantAvecGrade->User->email;
-            return $this->success($enseignatEmail);
+             $enseignantAvecGrade['email']=$enseignantAvecGrade->User->email;
+            return $this->success($enseignantAvecGrade);
 
         }
          else{
