@@ -23,13 +23,13 @@ class AuthController extends Controller
     public function login(LoginUser $request)
     {
         $validatedData =$request->validated();
-        if(!Auth::attempt($validatedData))
-        {
-            return $this->error('','information invalide',401);
-        }
+        $user = User::where('email', $validatedData['email'])->first();
+        if (!$user || $validatedData['password'] !== $user->password) {
+        return $this->error('', 'Informations invalides', 401);
+    }
 
-        $user= User::where('email',$validatedData['email'])->first();
-        $token=$user->createToken('API Token ' )->plainTextToken;
+    auth::login($user);
+    $token = $user->createToken('API Token')->plainTextToken;
          
         return $this->success([
             'user' => $user,
