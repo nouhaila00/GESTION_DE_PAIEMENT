@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Traits\HttpResponses;
 use App\Http\Requests\ReqInterv;
+use Illuminate\Support\Facades\Auth;
 
 class IntervController extends Controller
 {
@@ -18,22 +19,22 @@ class IntervController extends Controller
      */
 
 
-     public function index($idEnsg)
-     {
+     public function indexByEnsg($ppr)
+     { $ensg = Enseignant::where('PPR', $ppr)->first();
          $user = Auth::user();
 
-         if ($user->type === 'Directeur' && $user->administrateur->id_etab !== $idEnsg->id_etab) {
+         if ($user->type === 'Directeur' && $user->administrateur->id_etab !== $ensg->id_etab) {
              return $this->error('', 'Accès non autorisé', 403);
              }
              else {
              if ($user->type === 'Admin_Université')
              {
                  // L'utilisateur est un Admin_Universite, toutes les interventions sont autorisées
-                 $interventions = Intervention::where('id_intervenant', $idEnsg)->get();
+                 $interventions = Intervention::where('id_intervenant',$ensg->id )->get();
              }
              elseif ($user->type === 'Admin_Etablissement')
               {
-                $interventions = Intervention::where('id_intervenant', $idEnsg)->where('id_etab', $user->administrateur->id_etab)->get();
+                $interventions = Intervention::where('id_intervenant', $ensg->id)->where('id_etab', $user->administrateur->id_etab)->get();
               }
              if ($interventions->isNotEmpty()) {
                  return $this->success($interventions, 'Les interventions concernées par cet enseignant', 200);
@@ -54,8 +55,8 @@ class IntervController extends Controller
     public function store(ReqInterv $request)
 
     {   $validatedData =$request->validated();
-        $etab=Etablissement::firstWhere('code',$validatedData['code_etab'] );
-        $ensg=Enseignant::firstWhere('PPR',$validatedData['PPR'] );
+        $etab=Etablissement::where('code',$validatedData['code_etab'] )->first();
+        $ensg=Enseignant::where('PPR',$validatedData['PPR'] )->first();
         if($etab){
             if($ensg){
                 $intervention=Intervention:: create ([
@@ -79,24 +80,7 @@ class IntervController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Intervention  $intervention
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Intervention $intervention)
-    {
 
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Intervention  $intervention
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Intervention $intervention)
     {     $validatedData =$request->validated();
 

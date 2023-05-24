@@ -26,11 +26,11 @@ class Intervention extends Model
     ];
     public function etablissement()
     {
-        return $this->belongsTo(Etablissement::class, 'id_etab');
+        return $this->belongsTo(Etablissement::class);
     }
 
     public function enseignant()
     {
-        return $this->belongsTo(Enseignant::class, 'id_intervenant','id_enseignant');
+        return $this->belongsTo(Enseignant::class, 'id_intervenant','id');
     }
 }
