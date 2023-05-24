@@ -114,7 +114,7 @@ class AuthController extends Controller
     }
 
 
-
+    //cette fonction ne concerne que l'admin de l'etablissement et le directeur
     public function registerAdmin(RegisterAdmin $request)
     {
         //validation des données
@@ -135,19 +135,11 @@ class AuthController extends Controller
         if (!$user) {
             return $this->error('','l\'inscription a échouée',422);
         }
-         //inscription President
-         
-        if($validatedData['type']==='President')
-            return $this->success([
-                'user' => $user , 
-            ], 'Utilisateur inscrit avec succès');
-
 
         //insertion de l'administrateur
         $code = $validatedData['code'];
         $etab = Etablissement::where('code',$code)->first();
         if (!$etab) {
-        
             // Gérer le cas où l'établissement n'est pas trouvé
             return $this->error('', 'Établissement non trouvé', 422);
         }
@@ -173,5 +165,30 @@ class AuthController extends Controller
     
     }
 
+    //insertion du président
+    public function registerPresident(RegisterPresident $Request) {
+
+        //validation des données
+        $validatedData =$request->validated();
     
+        if (!$validatedData) {
+            return $this->error('','informations invalides',401);
+        }
+        $validatedData['password'] = Hash::make($validatedData['password']);
+ 
+        //creation du user
+        $user = User::create([
+                        'email' => $validatedData['email'],
+                        'password' => $validatedData['password'],
+                        'type' => $validatedData['type']
+                    ]);
+                    
+        if (!$user) {
+            return $this->error('','l\'inscription a échouée',422);
+        }
+        //succes de l'inscription                       
+        return $this->success([
+            'user' => $user 
+        ], 'Utilisateur inscrit avec succès');
+    } 
 }
