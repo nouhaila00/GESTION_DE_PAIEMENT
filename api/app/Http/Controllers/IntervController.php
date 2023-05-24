@@ -55,13 +55,13 @@ class IntervController extends Controller
     public function store(ReqInterv $request)
 
     {   $validatedData =$request->validated();
-        $etab=Etablissement::find($validatedData['id_etab'] );
-        $ensg=Enseignant::find($validatedData['id_intervenant'] );
+        $etab=Etablissement::firstWhere('code',$validatedData['code_etab'] );
+        $ensg=Enseignant::firstWhere('PPR',$validatedData['PPR'] );
         if($etab){
             if($ensg){
                 $intervention=Intervention:: create ([
-                    'id_intervenant'=>$validatedData['id_intervenant'],
-                    'id_Etab'=>$validatedData['id_etab'],
+                    'id_intervenant'=>$ensg->id,
+                    'id_Etab'=>$etab->id,
                     'intitule_intervention'=>$validatedData['intitule_intervention'],
                     'Annee_univ'=>$validatedData['Annee_univ'],
                     'Semestre'=>$validatedData['Semestre'],
@@ -69,7 +69,7 @@ class IntervController extends Controller
                     'Date_fin'=>$validatedData['Date_fin'],
                     'Nbr_heures'=>$validatedData['Nbr_heures'],
                 ]);
-                return $this->success($ensg,'Intervention ajoutée',200);
+                return $this->success($intervention,'Intervention ajoutée',200);
             }
             else{
                 return $this->error('','Enseignant non trouvée ',422);
@@ -100,23 +100,25 @@ class IntervController extends Controller
      */
     public function update(Request $request, Intervention $intervention)
     {   $validatedData =$request->validated();
-        $etab=Etablissement::find($validatedData['id_etab'] );
-        $ensg=Enseignant::find($validatedData['id_intervenant'] );
-        if($etab){
-            if($ensg){
-        $intervention->fill($validatedData)->save();
-        if ($intervention->wasChanged()) {
-            return $this->success($intervention,'Intervention modifiée',200);
-        } else {
-            return $this->success($intervention,'Rien modifiée',200);
-        }}
-        else{
-            return $this->error('','Enseignant non trouvée ',422);
-             }}
-    else {
-        return $this->error('','Etablissement non trouvée ',422);
+        $interv=Intervention::find($intervention->id);
 
-    }
+        if($interv){
+
+        $intervention->fill([
+            'intitule_intervention'=>$validatedData[ 'intitule_intervention'],
+             'Annee_univ'=>$validatedData[ 'Annee_univ'],
+             'Semestre'=>$validatedData['Semestre'],
+             'Date_debut'=>$validatedData['Date_debut'],
+             'Date_fin'=>$validatedData['Date_fin'],
+             'Nbr_heures'=>$validatedData['Nbr_heures'],
+        ])->save();
+
+            return $this->success($intervention,'Intervention modifiée',200);
+        }
+        else{
+            return $this->error('','Intervention non trouvée ',422);
+             }
+
     }
 
 
