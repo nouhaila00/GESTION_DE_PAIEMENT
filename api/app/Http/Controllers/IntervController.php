@@ -21,20 +21,20 @@ class IntervController extends Controller
      public function index($idEnsg)
      {
          $user = Auth::user();
-     
+
          if ($user->type === 'Directeur' && $user->administrateur->id_etab !== $idEnsg->id_etab) {
              return $this->error('', 'Accès non autorisé', 403);
-             } 
+             }
              else {
-             if ($user->type === 'Admin_Université') 
+             if ($user->type === 'Admin_Université')
              {
                  // L'utilisateur est un Admin_Universite, toutes les interventions sont autorisées
                  $interventions = Intervention::where('id_intervenant', $idEnsg)->get();
-             } 
+             }
              elseif ($user->type === 'Admin_Etablissement')
               {
                 $interventions = Intervention::where('id_intervenant', $idEnsg)->where('id_etab', $user->administrateur->id_etab)->get();
-              } 
+              }
              if ($interventions->isNotEmpty()) {
                  return $this->success($interventions, 'Les interventions concernées par cet enseignant', 200);
              } else {
@@ -42,7 +42,7 @@ class IntervController extends Controller
              }
          }
      }
-     
+
 
 
     /**
@@ -98,10 +98,7 @@ class IntervController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Intervention $intervention)
-    {   $validatedData =$request->validated();
-        $interv=Intervention::find($intervention->id);
-
-        if($interv){
+    {     $validatedData =$request->validated();
 
         $intervention->fill([
             'intitule_intervention'=>$validatedData[ 'intitule_intervention'],
@@ -113,10 +110,7 @@ class IntervController extends Controller
         ])->save();
 
             return $this->success($intervention,'Intervention modifiée',200);
-        }
-        else{
-            return $this->error('','Intervention non trouvée ',422);
-             }
+
 
     }
 
@@ -130,7 +124,7 @@ class IntervController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Intervention $intervention)
-    {   
+    {
         $intervention->delete();
     }
 }
