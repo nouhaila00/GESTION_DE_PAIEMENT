@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Etablissement;
-use App\Models\Grade;
 use App\Models\User;
+use App\Models\Grade;
+use App\Models\Enseignant;
+use App\Models\Etablissement;
+use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -12,21 +14,17 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class EnseignantFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
+
     public function definition()
     {
         return [
-            'PPR'=>fake()->randomNumber(6),
-            'nom'=>fake()->name(),
-            'prenom'=>fake()->name(),
-            'date_naissance'=>fake()->dateTimeBetween('-67 years', '-27 years')->format('Y-m-d'),
-            'id_etab'=>Etablissement::all()->random()->id,
-            'id_grade'=>Grade::all()->random()->id,
-            'id_user'=>User::all()->random()->id,
+            'PPR' =>fake()->unique()->numerify('PPR######'),
+            'nom' => fake()->lastName,
+            'prenom' =>fake()->firstName,
+            'date_naissance' =>fake()->date(),
+            'id_etab' => Etablissement::all()->random()->id,
+            'id_grade' => Grade::all()->random()->id,
+            'id_user' => User::all()->random()->id,
         ];
     }
 }

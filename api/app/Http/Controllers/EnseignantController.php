@@ -39,8 +39,8 @@ class EnseignantController extends Controller
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
-             $enseignatEmail['email']=$enseignantAvecGrade->User->email;
-            return $this->success($enseignatEmail);
+             $enseignantAvecGrade['email']=$enseignantAvecGrade->User->email;
+            return $this->success($enseignantAvecGrade);
 
         }
          else{

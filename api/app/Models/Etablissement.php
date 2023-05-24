@@ -16,4 +16,13 @@ class Etablissement extends Model
         return $this->hasMany(Enseignant::class);
     }
 
+    protected $fillable = [
+
+        'code',
+        'nom',
+        'telephone',
+        'faxe',
+        'ville',
+        'nbr_enseignant',
+    ];
 }

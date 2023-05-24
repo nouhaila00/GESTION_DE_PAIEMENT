@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use Database\Factories\EnseignantFactory;
 
 use App\Models\Enseignant;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,6 @@ class EnseignantSeeder extends Seeder
      */
     public function run()
     {
-        Enseignant:: factory(5)->create();
+        Enseignant:: factory(10)->create();
     }
 }
