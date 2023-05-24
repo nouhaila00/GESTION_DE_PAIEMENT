@@ -17,9 +17,13 @@ Route::group(['middleware' => ['auth:sanctum']], function()
 {
     Route::post('/logout', [AuthController::class, "logout"])->name('logout');
     Route::post('/registerAdmin', [AuthController::class, 'registerAdmin'])->name('registerAdmin')->middleware('IsAdminUniv');
-    Route::post('/registerEns', [AuthController::class, 'registerEnseignant'])->name('registerEnseignant')->middleware('IsAdminEtab');
+    Route::group(['middleware' => ['IsAdminEtab']], function () {
+        Route::post('/registerEns', [AuthController::class, 'registerEnseignant'])->name('registerEnseignant');
+        Route::post('/intervention',[IntervControlleron::class,'store'])->name('CreateInter')->middleware('IsAdminEtab');
+        Route::delete('/intervention/{intervention}', [IntervController::class, 'destroy'])->name('DestroyInter');
+        Route::put('/intervention/{intervention}',[IntervControlleron::class,'update'])->name('UpdateInter');
+    });
+    
+    Route::post('/intervention/{id}',[IntervControlleron::class,'index'])->name('IndexInter')->middleware('IsAdminUniv','IsDirecteur','IsAdminEtab');
 });
-Route::post('/intervention',[IntervControlleron::class,'create'])->name('CreateInter');
-Route::put('/intervention/{intervention}',[IntervControlleron::class,'update'])->name('UpdateInter');
 
-Route::delete('/intervention/{intervention}',[IntervControlleron::class,'destroy'])->name('DestroyInter');

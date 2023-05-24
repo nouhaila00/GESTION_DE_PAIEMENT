@@ -14,9 +14,18 @@ protected $fillable = [
             'nom',
             'prenom',
             'date_naissance',
-            'code',
             'id_etablissement',
             'id_user'        
         ];
+
+        public function etablissement()
+    {
+        return $this->belongsTo(Etablissement::class,'id_etab');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id_user');
+    }
 
 }

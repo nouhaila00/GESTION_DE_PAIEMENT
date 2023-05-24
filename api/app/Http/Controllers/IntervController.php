@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Traits\HttpResponses;
+use App\Models\User;
 use App\Models\Enseignant;
-use App\Models\Etablissement;
 use App\Models\Intervention;
 use Illuminate\Http\Request;
+use App\Models\Etablissement;
+use App\Traits\HttpResponses;
+use App\Http\Requests\ReqInterv;
 
 class IntervController extends Controller
 {
@@ -16,17 +18,31 @@ class IntervController extends Controller
      */
 
 
-        public function index($idEnsg)
-        {
-            $interventions = Intervention::where('id_intervenant', $idEnsg)->get();
-            if($interventions){
-                return $this->success($interventions,'Les interventions concernée cet enseignant',200);
-            }
-            else {
-                return $this->error('','Aucune intervention correspondante  ',422);
-            }
-
-        }
+     public function index($idEnsg)
+     {
+         $user = Auth::user();
+     
+         if ($user->type === 'Directeur' && $user->administrateur->id_etab !== $idEnsg->id_etab) {
+             return $this->error('', 'Accès non autorisé', 403);
+             } 
+             else {
+             if ($user->type === 'Admin_Université') 
+             {
+                 // L'utilisateur est un Admin_Universite, toutes les interventions sont autorisées
+                 $interventions = Intervention::where('id_intervenant', $idEnsg)->get();
+             } 
+             elseif ($user->type === 'Admin_Etablissement')
+              {
+                $interventions = Intervention::where('id_intervenant', $idEnsg)->where('id_etab', $user->administrateur->id_etab)->get();
+              } 
+             if ($interventions->isNotEmpty()) {
+                 return $this->success($interventions, 'Les interventions concernées par cet enseignant', 200);
+             } else {
+                 return $this->error('', 'Aucune intervention correspondante', 422);
+             }
+         }
+     }
+     
 
 
     /**
@@ -35,7 +51,7 @@ class IntervController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ReqInterv $request)
 
     {   $validatedData =$request->validated();
         $etab=Etablissement::find($validatedData['id_etab'] );
@@ -71,8 +87,6 @@ class IntervController extends Controller
      */
     public function show(Intervention $intervention)
     {
-
-
 
     }
 
@@ -114,7 +128,7 @@ class IntervController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Intervention $intervention)
-    {
+    {   
         $intervention->delete();
     }
 }
