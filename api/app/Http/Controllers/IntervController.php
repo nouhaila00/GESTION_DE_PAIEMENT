@@ -85,23 +85,25 @@ class IntervController extends Controller
      */
     public function update(Request $request, Intervention $intervention)
     {   $validatedData =$request->validated();
-        $etab=Etablissement::find($validatedData['id_etab'] );
-        $ensg=Enseignant::find($validatedData['id_intervenant'] );
-        if($etab){
-            if($ensg){
-        $intervention->fill($validatedData)->save();
-        if ($intervention->wasChanged()) {
-            return $this->success($intervention,'Intervention modifiée',200);
-        } else {
-            return $this->success($intervention,'Rien modifiée',200);
-        }}
-        else{
-            return $this->error('','Enseignant non trouvée ',422);
-             }}
-    else {
-        return $this->error('','Etablissement non trouvée ',422);
+        $interv=Intervention::find($intervention->id);
 
-    }
+        if($interv){
+
+        $intervention->fill([
+            'intitule_intervention'=>$validatedData[ 'intitule_intervention'],
+             'Annee_univ'=>$validatedData[ 'Annee_univ'],
+             'Semestre'=>$validatedData['Semestre'],
+             'Date_debut'=>$validatedData['Date_debut'],
+             'Date_fin'=>$validatedData['Date_fin'],
+             'Nbr_heures'=>$validatedData['Nbr_heures'],
+        ])->save();
+
+            return $this->success($intervention,'Intervention modifiée',200);
+        }
+        else{
+            return $this->error('','Intervention non trouvée ',422);
+             }
+
     }
 
 
