@@ -27,3 +27,5 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     Route::post('/intervention/{ppr}',[IntervControlleron::class,'indexByEnsg'])->name('IndexInter')->middleware('IsAdminUniv','IsDirecteur','IsAdminEtab');
 });
 
+Route ::patch('/intervention/{id}',[IntervController::class, 'ValidEtab'])->name('valid_etab');
+Route ::patch('/intervention/{id}',[IntervController::class, 'AnnEtab'])->name('Annul_etab');
