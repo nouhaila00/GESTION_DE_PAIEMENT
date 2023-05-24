@@ -19,9 +19,9 @@ class EnseignantController extends Controller
 {    use HttpResponses,HasFactory;
 
     public function indexByEtab($etab_code)
-    {   $etablissement = Etablissement::firstWhere('etab_code', $etab_code);
+    {   $etablissement = Etablissement::firstWhere('code', $etab_code);
         if ($etablissement) {
-            $etab_id = $etablissement->value('id_etablissement');
+            $etab_id = $etablissement->id;
             $user= Auth::User();
             if($user->type == 'Admin_Université')
             {$ensg = Enseignant::where('id_etab', $etab_id)->with('Grade')->paginate(20);}
