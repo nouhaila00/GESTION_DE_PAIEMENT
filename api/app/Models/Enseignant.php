@@ -26,17 +26,16 @@ class Enseignant extends Model
 
     public function etablissement()
     {
-        return $this->belongsTo(Etablissement::class);
+        return $this->belongsTo(Etablissement::class,'id_etab');
     }
-
     public function grade()
     {
-        return $this->belongsTo(Grade::class);
+        return $this->belongsTo(Grade::class,'id_grade');
     }
 
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class,'id_user');
     }
 
 
