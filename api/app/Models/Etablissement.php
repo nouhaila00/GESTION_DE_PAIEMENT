@@ -13,7 +13,7 @@ class Etablissement extends Model
 
     public function enseignant()
     {
-        return $this->hasMany(Enseignant::class);
+        return $this->hasMany(Enseignant::class,'id_etab');
     }
 
 }
