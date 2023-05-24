@@ -16,4 +16,11 @@ class Etablissement extends Model
         return $this->hasMany(Enseignant::class,'id_etab');
     }
 
+    public function administrateurs()
+    {
+        return $this->hasMany(Administrateur::class, 'id_etab');
+    }
+
+    
+
 }
