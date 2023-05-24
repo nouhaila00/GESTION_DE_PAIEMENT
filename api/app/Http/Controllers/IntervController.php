@@ -56,7 +56,7 @@ public function ValidEtab($id_inter){
             return $this->error('', 'Accès non autorisé', 403);
         }
      }
-     else {return $this->error('', 'Accès non autorisé', 403);}
+
 }
 public function AnnEtab($id_inter){
     $inter=Intervention::find($id_inter);
@@ -72,6 +72,54 @@ public function AnnEtab($id_inter){
      }
      else {return $this->error('', 'Accès non autorisé', 403);}
 }
+
+public function ValidUae($id_inter){
+    $inter=Intervention::find($id_inter);
+     if($inter){
+        $ensg = Enseignant::find($inter->id_intervenant);
+        $user = Auth::user();
+        if ($user->type =='President'){
+
+            if($inter->visa_etb==1){
+                $inter->visa_uae=1;
+                return $this->success($inter, 'L\'intervention validée', 200);
+            }
+            else{
+                return $this->error('','cette intervention n\'est pas validée par l\'etablissement',);
+            }
+        }
+
+}}
+public function AnnUae($id_inter){
+    $inter=Intervention::find($id_inter);
+     if($inter){
+        $ensg = Enseignant::find($inter->id_intervenant);
+        $user = Auth::user();
+        if ($user->type =='President'){
+
+                $inter->visa_uae=0;
+                return $this->success($inter, 'L\'intervention annulée', 200);
+
+            }
+        }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Store a newly created resource in storage.

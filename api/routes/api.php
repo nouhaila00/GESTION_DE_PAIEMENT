@@ -29,3 +29,5 @@ Route::group(['middleware' => ['auth:sanctum']], function()
 
 Route ::patch('/intervention/{id}',[IntervController::class, 'ValidEtab'])->name('valid_etab');
 Route ::patch('/intervention/{id}',[IntervController::class, 'AnnEtab'])->name('Annul_etab');
+Route ::patch('/intervention/{id}',[IntervController::class, 'ValidUae'])->name('valid_uae');
+Route ::patch('/intervention/{id}',[IntervController::class, 'AnnUae'])->name('Annul_uae');
