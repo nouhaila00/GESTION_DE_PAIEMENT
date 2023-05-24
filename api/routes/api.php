@@ -21,7 +21,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     Route::post('/registerEns', [AuthController::class, 'registerEnseignant'])->name('registerEnseignant')->middleware('IsAdminEtab');
 });
 
-Route::get('/show/{PPR}', [AdminController::class, 'show'])->name('Admin.show');
+Route::get('/show/{PPR}', [AdminController::class, 'show'])->name('Admin.show')->middleware('AdminUniv','AdminEtab','Directeur');
 Route::get('/show/{email}', [UserController::class, 'show'])->name('User.show');
 Route::put('/update/{PPR}', [AdminController::class, 'update'])->name('Admin.update');
 Route::put('/update/{email}', [UserController::class, 'update'])->name('User.update');

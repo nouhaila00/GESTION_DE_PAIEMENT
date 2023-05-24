@@ -18,4 +18,14 @@ protected $fillable = [
             'id_user'        
         ];
 
+        public function etablissement()
+    {
+        return $this->belongsTo(Etablissement::class,'id_etab');
+    }
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id_user');
+    }
+
 }
