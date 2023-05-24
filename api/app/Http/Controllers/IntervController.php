@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Traits\HttpResponses;
 use App\Http\Requests\ReqInterv;
+use Illuminate\Support\Facades\Auth;
 
 class IntervController extends Controller
 {
