@@ -14,7 +14,6 @@ protected $fillable = [
             'nom',
             'prenom',
             'date_naissance',
-            'code',
             'id_etablissement',
             'id_user'        
         ];
