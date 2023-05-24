@@ -24,7 +24,7 @@ class LoginUser extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required','string','email','unique:users'],
+            'email' => ['required','string','email'],
             'password' => ['required','string','min:6','max:8'],
              'type' => ['required','string','in:Enseignant,Admin_Etablissement,Admin_Université,President,Directeur']
         ];

@@ -36,7 +36,7 @@ class RegisterAdmin extends FormRequest
             'nom' => ['required','string','max:20'],
             'prenom' => ['required','string','max:20'],
             'date_naissance' => ['required','date'],
-             'code' => ['required','string','unique:etablissements']
+             'code' => ['required','string']
         ];
     }
 }
