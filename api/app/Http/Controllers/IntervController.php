@@ -69,9 +69,8 @@ public function AnnEtab($id_inter){
         } else {
             return $this->error('', 'Accès non autorisé', 403);
         }
-     }
-     else {return $this->error('', 'Accès non autorisé', 403);}
-}
+
+}}
 
 public function ValidUae($id_inter){
     $inter=Intervention::find($id_inter);
@@ -88,7 +87,9 @@ public function ValidUae($id_inter){
                 return $this->error('','cette intervention n\'est pas validée par l\'etablissement',);
             }
         }
-
+     else {
+        return $this->error('', 'Accès non autorisé', 403);
+    }
 }}
 public function AnnUae($id_inter){
     $inter=Intervention::find($id_inter);
@@ -96,11 +97,12 @@ public function AnnUae($id_inter){
         $ensg = Enseignant::find($inter->id_intervenant);
         $user = Auth::user();
         if ($user->type =='President'){
-
                 $inter->visa_uae=0;
                 return $this->success($inter, 'L\'intervention annulée', 200);
 
             }
+        } else {
+            return $this->error('', 'Accès non autorisé', 403);
         }
 
 }
