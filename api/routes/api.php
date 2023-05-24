@@ -23,7 +23,7 @@ Route::group(['middleware' => ['auth:sanctum']], function()
         Route::delete('/intervention/{intervention}', [IntervController::class, 'destroy'])->name('DestroyInter');
         Route::put('/intervention/{intervention}',[IntervControlleron::class,'update'])->name('UpdateInter');
     });
-    
-    Route::post('/intervention/{id}',[IntervControlleron::class,'index'])->name('IndexInter')->middleware('IsAdminUniv','IsDirecteur','IsAdminEtab');
+
+    Route::post('/intervention/{ppr}',[IntervControlleron::class,'indexByEnsg'])->name('IndexInter')->middleware('IsAdminUniv','IsDirecteur','IsAdminEtab');
 });
 
