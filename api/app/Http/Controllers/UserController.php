@@ -11,17 +11,22 @@ class AdminController extends Controller
 {
 
     public function show($email)
-    {
+    {   $auth=Auth::user();
+        if($auth->type === 'President' && $auth->email !== $email)
+        {
+            return $this->error('','Accès non authorisé',403);
+        }
+        else {
         $user= User::find($email);
         if(!$user){
             return $this->error('','utilisateur non trouvé',404);
         }
         return $this->success($user,'utilisateur trouvé',200);
-    }
+    }}
 
-    public function update(Request $request, $email)
-    {
-        $validatedData = $request->validate();
+    public function update(UpdateUser $request, $email)
+    {   
+        $validatedData = $request->validated();
         if(!$validatedData) 
         {
             return $this->error('','informations invalides',401);
@@ -29,16 +34,10 @@ class AdminController extends Controller
 
         $user= User::where('email',$email);
         if(!$user) return $this->error('','utilisateur non trouvé',404);
-        
-        if($user != Auth::User())
-        {
-            $user->type = $validatedData['type'];
-        }
 
         $user->email = $validatedData['email'];
         $user->password = $validatedData['password'];
-        $user->save();
-        
+        $user->save();     
         return $this->success([
             'user'=>$user,
         ],'modifications bien enregistrées',200);

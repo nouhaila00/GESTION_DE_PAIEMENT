@@ -21,9 +21,10 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     Route::post('/registerEns', [AuthController::class, 'registerEnseignant'])->name('registerEnseignant')->middleware('IsAdminEtab');
 });
 
-Route::get('/show/{PPR}', [AdminController::class, 'show'])->name('Admin.show')->middleware('AdminUniv','AdminEtab','Directeur');
-Route::get('/show/{email}', [UserController::class, 'show'])->name('User.show');
-Route::put('/update/{PPR}', [AdminController::class, 'update'])->name('Admin.update');
-Route::put('/update/{email}', [UserController::class, 'update'])->name('User.update');
-Route::delete('/destroy/{PPR}', [AdminController::class, 'destroy'])->name('Admin.destroy');
-Route::delete('/destroy/{email}', [UserController::class, 'destroy'])->name('User.destroy');
+Route::get('/showAdmin/{PPR}', [AdminController::class, 'show'])->name('Admin.show')->middleware('IsAdminUniv','IsAdminEtab','IsDirecteur');
+Route::get('/showUser/{email}', [UserController::class, 'show'])->name('User.show')->middleware('IsAdminUniv','IsPresident');
+Route::put('/updateAdmin/{PPR}', [AdminController::class, 'UpdateByUniv'])->name('Admin.update')->middleware('IsAdminUniv');
+Route::put('/update/{PPR}', [AdminController::class, 'update'])->name('Admin.update')->middleware('IsDirecteur','IsAdminEtab');
+Route::put('/updateUser/{email}', [UserController::class, 'update'])->name('User.update')->middleware('IsAdminUniv','IsPresident');
+Route::delete('/destroyAdmin/{PPR}', [AdminController::class, 'destroy'])->name('Admin.destroy')->middleware('IsAdminUniv');
+Route::delete('/destroyUser/{email}', [UserController::class, 'destroy'])->name('User.destroy')->middleware('IsAdminUniv');

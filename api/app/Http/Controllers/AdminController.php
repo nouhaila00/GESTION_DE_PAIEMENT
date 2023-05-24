@@ -3,22 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Models\Administrateur;
-use App\Models\Etablissement;
 use Illuminate\Http\Request;
+use App\Models\Etablissement;
 use App\Traits\HttpResponses;
+use App\Models\Administrateur;
+use App\Http\Requests\UpdateToAdmin;
 use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
 
     public function show($PPR)
-    {   $user=Auth::user();
-        if($user->type ==='Admin_Etabblissement' && $user->user->Administrateur->PPR !==$PPR )
+    {   $auth=Auth::user();
+        if($auth->type ==='Admin_Etabblissement' && $auth->administrateur->PPR !==$PPR )
         {
               return $this->error('','Acces non authorisé',403);
         }
-        elseif ($user->type ==='Directeur' && $user->user->Administrateur->PPR !==$PPR)
+        elseif ($auth->type ==='Directeur' && $auth->administrateur->PPR !==$PPR)
         {
             return $this->error('','Acces non authorisé',403);
        }
@@ -37,7 +38,7 @@ class AdminController extends Controller
         ],'administrateur trouvé',200);
     }}
 
-    public function UpdateByUniv(Request $request, $PPR)
+    public function UpdateByUniv(UpdateByUniv $request, $PPR)
     {
         $validatedData = $request->validated();
         if(!$validatedData) 
@@ -60,7 +61,7 @@ class AdminController extends Controller
      }
 
         $user= User::where('id',$admin->id_user);
-        if(!$user) return $this->error('','utilisateur non trouvé',404);
+        if(!$user) {return $this->error('','utilisateur non trouvé',404);}
         
         $user->type = $validatedData['type'];
         $user->email = $validatedData['email'];
@@ -74,8 +75,12 @@ class AdminController extends Controller
 
     }
 
-    public function Update(Request $request, $PPR)
-    {
+    public function update(UpdateToAdmin $request, $PPR)
+    {   $auth=Auth::user();
+        if($auth->administrateur->PPR !== $PPR)
+        {
+            return $this->error('','Accèc non authorisé',403);
+        }
         $validatedData = $request->validated();
         if(!$validatedData) 
         {
@@ -95,7 +100,7 @@ class AdminController extends Controller
      }
 
         $user= User::where('id',$admin->id_user);
-        if(!$user) return $this->error('','utilisateur non trouvé',404);
+        if(!$user) {return $this->error('','utilisateur non trouvé',404);}
         
         $user->email = $validatedData['email'];
         $user->password = $validatedData['password'];
