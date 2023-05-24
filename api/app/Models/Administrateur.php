@@ -15,7 +15,6 @@ class Administrateur extends Model
         'prenom',
         'date_naissance',
         'id_etab',
-        'code',
         'id_user',
     ];
 
@@ -26,6 +25,6 @@ class Administrateur extends Model
 
     public function user()
     {
-        return $this->hasOne(User::class,'id_user');
+        return $this->belongsTo(User::class,'id_user');
     }
 }
