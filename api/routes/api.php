@@ -18,7 +18,6 @@ Route::group(['middleware' => ['auth:sanctum']], function()
     Route::post('/logout', [AuthController::class, "logout"])->name('logout');
 
 
-
 });
 Route::get('/enseignant/{code}',[EnseignantController::class,'indexByEtab'])->name('listEnseignat');
 Route::get ('/enseignant/{ppr}',[EnseignantController::class,'show'])->name('showEnseignat');

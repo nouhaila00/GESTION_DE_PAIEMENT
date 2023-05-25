@@ -17,10 +17,10 @@ class EnseignantController extends Controller
 {    use HttpResponses,HasFactory;
 
     public function indexByEtab($etab_code)
-    {   $etablissement = Etablissement::firstWhere('code', $etab_code);
+    {   $etablissement = Etablissement::Where('code', $etab_code)->first();
         if ($etablissement) {
             $etab_id = $etablissement->id;
-            $ensg = Enseignant::where('id', $etab_id)->with('Grade')->paginate(20);
+            $ensg = Enseignant::where('id', $etab_id)->with('Grade')->paginate(20)->get();
             return $this->success($ensg, 'La liste des enseignants', '');
         } else {
             return $this->error('', 'Etablissement non trouvé', 422);
