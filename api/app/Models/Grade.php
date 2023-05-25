@@ -18,12 +18,12 @@ class Grade extends Model
     ];
     public function enseignant()
     {
-        return $this->hasMany(Enseignant::class,'id_grade');
+        return $this->hasMany(Enseignant::class);
     }
     protected $fillable = [
-
         'designation',
         'charge_statutaire',
         'taux_horaire_vacation',
+
     ];
 }

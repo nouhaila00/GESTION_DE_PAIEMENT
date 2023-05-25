@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Etablissement;
+use Database\Factories\EtablissementFactory;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 

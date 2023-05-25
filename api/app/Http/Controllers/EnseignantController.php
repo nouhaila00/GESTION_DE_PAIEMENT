@@ -18,8 +18,8 @@ class EnseignantController extends Controller
     public function indexByEtab($etab_code)
     {   $etablissement = Etablissement::firstWhere('etab_code', $etab_code);
         if ($etablissement) {
-            $etab_id = $etablissement->value('id_etablissement');
-            $ensg = Enseignant::where('id_etab', $etab_id)->with('Grade')->paginate(20);
+            $etab_id = $etablissement->id;
+            $ensg = Enseignant::where('id', $etab_id)->with('Grade')->paginate(20);
             return $this->success($ensg, 'La liste des enseignants', '');
         } else {
             return $this->error('', 'Etablissement non trouvé', 422);
