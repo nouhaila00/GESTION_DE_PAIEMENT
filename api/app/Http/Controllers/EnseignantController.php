@@ -19,12 +19,12 @@ class EnseignantController extends Controller
 {    use HttpResponses,HasFactory;
 
     public function indexByEtab($etab_code)
-    {   $etablissement = Etablissement::firstWhere('code', $etab_code);
+    {   $etablissement = Etablissement::Where('code', $etab_code)->first();
         if ($etablissement) {
             $etab_id = $etablissement->id;
             $user= Auth::User();
             if($user->type == 'Admin_Université')
-            {$ensg = Enseignant::where('id_etab', $etab_id)->with('Grade')->paginate(20);}
+            {$ensg = Enseignant::where('id', $etab_id)->with('Grade')->paginate(20);}
             elseif ($user->type == 'Admin_Etablissement' && $user->administrateur->etablissement->code == $etab_code)
             {
                 $ensg = Enseignant::whereHas('etablissement', function ($query) use ($etab_code) { $query->where('code', $etab_code);})->with('Grade')->get();
@@ -48,7 +48,7 @@ class EnseignantController extends Controller
 
     public function show($ppr)
     {
-        $ensg=  Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
+        $ensg=  Enseignant ::with('Grade','User')->where('ppr', $ppr)->first();
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
@@ -63,7 +63,7 @@ class EnseignantController extends Controller
 
     public function update(UpdateEns $request,  $ppr)
 {
-            $enseignant= Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
+            $enseignant= Enseignant ::with('Grade','User')->where('ppr', $ppr)->first();
 
             if($enseignant){
             $val=$request->validated();
@@ -108,7 +108,7 @@ class EnseignantController extends Controller
 
     public function destroy($ppr )
     {
-        $ensg= Enseignant ::where('PPR', $ppr)->first();
+        $ensg= Enseignant ::where('ppr', $ppr)->first();
         if($ensg){
             $ensg->delete();
            return $this->success ('', 'l\'Enseignant supprimé avec succès','');

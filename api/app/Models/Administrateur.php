@@ -10,7 +10,7 @@ class Administrateur extends Model
     use HasFactory;
     protected $fillable = [
 
-        'PPR',
+        'ppr',
         'nom' ,
         'prenom',
         'date_naissance',

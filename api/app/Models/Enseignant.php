@@ -15,7 +15,7 @@ class Enseignant extends Model
 
     protected $fillable = [
 
-        'PPR',
+        'ppr',
         'nom' ,
         'prenom',
         'date_naissance',

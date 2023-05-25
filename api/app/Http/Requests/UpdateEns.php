@@ -29,7 +29,7 @@ class UpdateEns extends FormRequest
             'nom' => ['string','max:20'],
             'prenom' => ['string','max:20'],
             'date_naissance' => ['date'],
-            'designation' => ['string','in:PA,PH,PES'] 
+            'designation' => ['string','in:PA,PH,PES']
         ];
     }
 }
