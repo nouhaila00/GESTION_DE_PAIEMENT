@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
-            $table->string('PPR');
+            $table->string('ppr')->unique();
             $table->string('nom');
             $table->string('prenom');
             $table->date('date_naissance');
-            $table->unsignedBigInteger('id_etab');
-            $table->unsignedBigInteger('id_grade');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_etab')->references('id')->on ('etablissements');
-            $table->foreign('id_grade')->references('id_grade')->on ('grades');
-            $table->foreign('id_user')->references('id_user')->on ('users');
+            $table->unsignedBigInteger('etablissement_id');
+            $table->unsignedBigInteger('grade_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('etablissement_id')->references('id')->on ('etablissements');
+            $table->foreign('grade_id')->references('id')->on ('grades');
+            $table->foreign('user_id')->references('id')->on ('users');
             $table->timestamps();
         });
     }

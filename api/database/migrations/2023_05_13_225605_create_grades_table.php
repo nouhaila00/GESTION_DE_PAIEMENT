@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('grades', function (Blueprint $table) {
-            $table->id('id_grade');
+            $table->id();
             $table->string('designation');
             $table->integer('charge_statutaire');
             $table->float('taux_horaire_vacation');

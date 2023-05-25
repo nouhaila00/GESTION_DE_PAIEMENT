@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('administrateurs', function (Blueprint $table) {
             $table->id();
-            $table->string('PPR');
+            $table->string('ppr');
             $table->string('nom');
             $table->string('prenom');
-            $table->unsignedBigInteger('id_etablissement');
-            $table->unsignedBigInteger('id_user');
-            $table->foreign('id_etablissement')->references('id')->on ('etablissements');
-            $table->foreign('id_user')->references('id_user')->on ('users');
+            $table->unsignedBigInteger('etablissement_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('etablissement_id')->references('id')->on ('etablissements');
+            $table->foreign('user_id')->references('id')->on ('users');
             $table->timestamps();
         });
     }
