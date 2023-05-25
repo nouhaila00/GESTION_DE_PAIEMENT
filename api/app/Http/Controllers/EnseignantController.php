@@ -36,7 +36,7 @@ class EnseignantController extends Controller
 
     public function show($ppr)
     {
-        $ensg=  Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
+        $ensg=  Enseignant ::with('Grade','User')->where('ppr', $ppr)->first();
         if($ensg){
             $enseignantAvecGrade = $ensg;
              $enseignantAvecGrade['designation_grade'] = $ensg->Grade->designation;
@@ -51,7 +51,7 @@ class EnseignantController extends Controller
 
     public function update(UpdateEns $request,  $ppr)
 {
-            $enseignant= Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
+            $enseignant= Enseignant ::with('Grade','User')->where('ppr', $ppr)->first();
 
             if($enseignant){
             $val=$request->validated();
@@ -92,7 +92,7 @@ class EnseignantController extends Controller
 
     public function destroy($ppr )
     {
-        $ensg= Enseignant ::where('PPR', $ppr)->first();
+        $ensg= Enseignant ::where('ppr', $ppr)->first();
         if($ensg){
             $ensg->delete();
            return $this->success ('', 'l\'Enseignant supprimé avec succès','');

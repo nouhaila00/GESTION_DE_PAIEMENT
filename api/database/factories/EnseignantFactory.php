@@ -18,7 +18,7 @@ class EnseignantFactory extends Factory
     public function definition()
     {
         return [
-            'PPR' =>fake()->unique()->numerify('PPR######'),
+            'ppr' =>fake()->unique()->numerify('PPR######'),
             'nom' => fake()->lastName,
             'prenom' =>fake()->firstName,
             'date_naissance' =>fake()->date(),
