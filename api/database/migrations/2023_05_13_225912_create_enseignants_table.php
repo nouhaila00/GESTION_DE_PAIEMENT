@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('enseignants', function (Blueprint $table) {
             $table->id();
-            $table->string('PPR');
+            $table->string('ppr');
             $table->string('nom');
             $table->string('prenom');
             $table->date('date_naissance');
@@ -23,8 +23,8 @@ return new class extends Migration
             $table->unsignedBigInteger('id_grade');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_etab')->references('id')->on ('etablissements');
-            $table->foreign('id_grade')->references('id_grade')->on ('grades');
-            $table->foreign('id_user')->references('id_user')->on ('users');
+            $table->foreign('id_grade')->references('id')->on ('grades');
+            $table->foreign('id_user')->references('id')->on ('users');
             $table->timestamps();
         });
     }

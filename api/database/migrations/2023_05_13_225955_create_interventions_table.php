@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('interventions', function (Blueprint $table) {
-            $table->id('id_intervention');
+            $table->id('id');
             $table->unsignedBigInteger('id_intervenant');
-            $table->unsignedBigInteger('id_Etab');
+            $table->unsignedBigInteger('id_etab');
             $table->string('intitule_intervention');
             $table->date('Annee_univ');
             $table->string('Semestre');
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->integer('visa_etb')->default(0);
             $table->integer('visa_uae')->default(0);
             $table->foreign('id_intervenant')->references('id')->on ('enseignants');
-            $table->foreign('id_Etab')->references('id')->on ('etablissements');
+            $table->foreign('id_etab')->references('id')->on ('etablissements');
             $table->timestamps();
         });
     }

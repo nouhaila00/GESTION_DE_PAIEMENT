@@ -24,7 +24,7 @@ return new class extends Migration
             $table->float('net')->nullable();
             $table->date('annee_univ');
             $table->string('semestre');
-            $table->foreign('id_intervenant')->references('id_intervention')->on ('interventions');
+            $table->foreign('id_intervenant')->references('id')->on ('interventions');
             $table->foreign('id_etab')->references('id')->on ('etablissements');
             $table->timestamps();
         });
