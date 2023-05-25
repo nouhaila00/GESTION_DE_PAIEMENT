@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Etablissement;
 use App\Traits\HttpResponses;
 use Illuminate\Http\Response;
+use App\Http\Requests\UpdateEns;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -16,7 +17,7 @@ class EnseignantController extends Controller
 {    use HttpResponses,HasFactory;
 
     public function indexByEtab($etab_code)
-    {   $etablissement = Etablissement::firstWhere('etab_code', $etab_code);
+    {   $etablissement = Etablissement::firstWhere('code', $etab_code);
         if ($etablissement) {
             $etab_id = $etablissement->id;
             $ensg = Enseignant::where('id', $etab_id)->with('Grade')->paginate(20);
@@ -48,7 +49,7 @@ class EnseignantController extends Controller
          }
     }
 
-    public function update(Request $request,  $ppr)
+    public function update(UpdateEns $request,  $ppr)
 {
             $enseignant= Enseignant ::with('Grade','User')->where('PPR', $ppr)->first();
 
