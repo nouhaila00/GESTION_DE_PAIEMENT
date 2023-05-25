@@ -18,26 +18,29 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    use HttpResponses,HasApiTokens;
-
-    public function login(LoginUser $request)
-    {
-        $validatedData =$request->validated();
-        if(!Auth::attempt($validatedData))
-        {
-            return $this->error('','information invalide',401);
-        }
-
-        $user= User::where('email',$validatedData['email'])->first();
-        $token=$user->createToken('API Token ' )->plainTextToken;
-         
-        return $this->success([
-            'user' => $user,
-            'token' => $token,
-
-        ]);
+    use HasApiTokens;
+    public function login(Request $request)
+{
+    $validatedData = $request->validate([
+        'name' => 'required',
+        'email' => 'required|email',
+        'password' => 'required|min:6',
         
+    ]);
+
+    if (!Auth::attempt($validatedData)) {
+        return response()->json(['error' => 'Informations invalides'], 401);
     }
+
+    $user = Auth::user();
+    $token = $user->createToken('API Token ' . $user->name)->plainTextToken;
+
+    return response()->json([
+        'user' => $user,
+        'token' => $token,
+    ]);
+}
+        
 
     public function logout(Request $requete)
     {
