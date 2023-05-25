@@ -14,7 +14,7 @@ class Intervention extends Model
 
     protected $fillable = [
              'id_intervenant',
-             'id_Etab',
+             'id_etab',
              'intitule_intervention',
              'Annee_univ',
              'Semestre',
@@ -26,11 +26,11 @@ class Intervention extends Model
     ];
     public function etablissement()
     {
-        return $this->belongsTo(Etablissement::class);
+        return $this->belongsTo(Etablissement::class,'id_etab');
     }
 
     public function enseignant()
     {
-        return $this->belongsTo(Enseignant::class, 'id_intervenant','id');
+        return $this->belongsTo(Enseignant::class,'id_intervenant');
     }
 }

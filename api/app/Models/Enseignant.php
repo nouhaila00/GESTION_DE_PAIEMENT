@@ -10,7 +10,7 @@ class Enseignant extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'PPR',
+        'ppr',
         'nom',
         'prenom',
         'date_naissance',
@@ -21,6 +21,6 @@ class Enseignant extends Model
     ];
     public function intervention()
     {
-        return $this->hasMany(Intervention::class, 'id', 'id_intervenant');
+        return $this->hasMany(Intervention::class);
     }
 }

@@ -17,10 +17,8 @@ class IntervController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-
-
      public function indexByEnsg($ppr)
-     { $ensg = Enseignant::where('PPR', $ppr)->first();
+     { $ensg = Enseignant::where('ppr', $ppr)->first();
          $user = Auth::user();
 
          if ($user->type === 'Directeur' && $user->administrateur->id_etab !== $ensg->id_etab) {
@@ -44,44 +42,35 @@ class IntervController extends Controller
          }
      }
 
-public function ValidEtab($id_inter){
-    $inter=Intervention::find($id_inter);
-     if($inter){
-        $ensg = Enseignant::find($inter->id_intervenant);
+public function ValidEtab(Intervention $intervention){
+        $ensg = Enseignant::find($intervention->id_intervenant);
         $user = Auth::user();
         if ($user->type === 'Directeur'&& $user->administrateur->id_etab == $ensg->id_etab){
-            $inter->visa_etb=1;
-            return $this->success($inter, 'L\'intervention validée', 200);
+            $intervention->visa_etb=1;
+            return $this->success($intervention, 'L\'intervention validée', 200);
         } else {
             return $this->error('', 'Accès non autorisé', 403);
         }
      }
 
-}
-public function AnnEtab($id_inter){
-    $inter=Intervention::find($id_inter);
-     if($inter){
-        $ensg = Enseignant::find($inter->id_intervenant);
+public function AnnEtab(Intervention $intervention){
+        $ensg = Enseignant::find($intervention->id_intervenant);
         $user = Auth::user();
         if ($user->type === 'Directeur'&& $user->administrateur->id_etab == $ensg->id_etab){
-            $inter->visa_etb= 0;
-            return $this->success($inter, 'L\'intervention validée', 200);
+            $intervention->visa_etb= 0;
+            return $this->success($intervention, 'L\'intervention validée', 200);
         } else {
             return $this->error('', 'Accès non autorisé', 403);
-        }
+        }}
 
-}}
 
-public function ValidUae($id_inter){
-    $inter=Intervention::find($id_inter);
-     if($inter){
-        $ensg = Enseignant::find($inter->id_intervenant);
+
+public function ValidUae(Intervention $intervention){
         $user = Auth::user();
-        if ($user->type =='President'){
-
-            if($inter->visa_etb==1){
-                $inter->visa_uae=1;
-                return $this->success($inter, 'L\'intervention validée', 200);
+        if ($user->type =='President' )
+        { if($intervention->visa_etb==1) {
+            $intervention->visa_uae=1;
+                return $this->success($intervention, 'L\'intervention validée', 200);
             }
             else{
                 return $this->error('','cette intervention n\'est pas validée par l\'etablissement',);
@@ -90,37 +79,18 @@ public function ValidUae($id_inter){
      else {
         return $this->error('', 'Accès non autorisé', 403);
     }
-}}
-public function AnnUae($id_inter){
-    $inter=Intervention::find($id_inter);
-     if($inter){
-        $ensg = Enseignant::find($inter->id_intervenant);
+}
+public function AnnUae(Intervention $intervention){
         $user = Auth::user();
         if ($user->type =='President'){
-                $inter->visa_uae=0;
-                return $this->success($inter, 'L\'intervention annulée', 200);
-
+            $intervention->visa_uae=0;
+                return $this->success($intervention, 'L\'intervention annulée', 200);
             }
-        } else {
+        else {
             return $this->error('', 'Accès non autorisé', 403);
         }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -133,7 +103,7 @@ public function AnnUae($id_inter){
 
     {   $validatedData =$request->validated();
         $etab=Etablissement::where('code',$validatedData['code_etab'] )->first();
-        $ensg=Enseignant::where('PPR',$validatedData['PPR'] )->first();
+        $ensg=Enseignant::where('ppr',$validatedData['ppr'] )->first();
         if($etab){
             if($ensg){
                 $intervention=Intervention:: create ([
