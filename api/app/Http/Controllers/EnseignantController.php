@@ -108,7 +108,7 @@ class EnseignantController extends Controller
 
     public function destroy($ppr )
     {
-        $ensg= Enseignant ::where('ppr', $ppr)->first();
+        $ensg= Enseignant ::where('ppr', $ppr)->get();
         if($ensg){
             $ensg->delete();
            return $this->success ('', 'l\'Enseignant supprimé avec succès','');
